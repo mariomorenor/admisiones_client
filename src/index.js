@@ -22,22 +22,51 @@ if (!store.get("first_time")) {
 }
 
 const server = store.get("server");
-const client = store.get("client");
-
-client.ip_address = ip.address();
+var client;
+store.set("client.status", false);
 
 const socket = io(`http://${server.host}:${server.port}`);
 
+let window;
+
 function createWindow() {
-  const win = new BrowserWindow({
+  window = new BrowserWindow({
     width: 800,
     height: 600,
+    closable: false,
   });
+  window.loadURL("https://admision.pucesd.edu.ec/login/index.php");
 
-  win.loadURL("https://admision.pucesd.edu.ec/login/index.php");
+  window.on("close", (e) => {
+    e.preventDefault();
+    window.hide();
+  });
 }
 
 app.whenReady().then(() => {
-  console.log(client);
-  socket.emit("new-client", client);
+  socket.on("connect", () => {
+    client = store.get("client");
+    client.ip_address = ip.address();
+    socket.emit("new-client", client);
+  });
+
+  socket.on("open-window", () => {
+    if (window) {
+      window.show();
+    } else {
+      createWindow();
+    }
+    store.set("client.status", true);
+  });
+
+  socket.on("close-window", () => {
+    if (window) {
+      window.hide();
+    }
+    store.set("client.status", false);
+  });
+
+  socket.on("power-off",()=>{
+    // TODO funcion para apagar la PC
+  })
 });
