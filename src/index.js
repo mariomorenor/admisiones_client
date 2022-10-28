@@ -34,9 +34,12 @@ function createWindow() {
     width: 800,
     height: 600,
     closable: false,
+    fullscreen: true,
+    alwaysOnTop: true,
   });
+  window.setMenu(null);
+  window.maximize();
   window.loadURL("https://admision.pucesd.edu.ec/login/index.php");
-
   window.on("close", (e) => {
     e.preventDefault();
     window.hide();
@@ -44,7 +47,6 @@ function createWindow() {
 }
 
 app.whenReady().then(() => {
-
   socket.on("connect", () => {
     client = store.get("client");
     client.ip_address = ip.address();
@@ -68,7 +70,7 @@ app.whenReady().then(() => {
     store.set("client.status", false);
   });
 
-  socket.on("power-off",()=>{
+  socket.on("power-off", () => {
     // TODO funcion para apagar la PC
-  })
+  });
 });
