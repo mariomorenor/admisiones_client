@@ -1,18 +1,32 @@
 {
   "name": "admisiones_client",
   "version": "1.0.0",
-  "description": "",
+  "description": "Aplicacion para abrir la pàgina de Admisiones de la PUCESD",
   "main": "src/index.js",
   "scripts": {
-    "dev": "electron ."
+    "dev": "electron .",
+    "build": "electron-builder "
   },
   "keywords": [],
-  "author": "",
+  "author": {
+    "name": "Jonathan Moreno",
+    "email": "mario_morenor@hotmail.com"
+  },
   "license": "ISC",
   "dependencies": {
-    "electron": "^21.2.0",
+    "electron-squirrel-startup": "^1.0.0",
     "electron-store": "^8.1.0",
     "ip": "^1.1.8",
     "socket.io-client": "^4.5.3"
+  },
+  "devDependencies": {
+    "electron": "^21.2.0",
+    "electron-builder": "^23.6.0"
+  },
+  "build":{
+    "win":{
+      "target":"portable"  
+    },
+    "icon":"src/assets/logoPuce_.png"
   }
 }
