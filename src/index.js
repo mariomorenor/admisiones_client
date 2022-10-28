@@ -19,10 +19,10 @@ if (!store.get("first_time")) {
     ip_address: ip.address(),
     lab: 1,
   });
+  app.quit();
 }
 
 const server = store.get("server");
-var client;
 store.set("client.status", false);
 
 const socket = io(`http://${server.host}:${server.port}`);
@@ -44,9 +44,11 @@ function createWindow() {
 }
 
 app.whenReady().then(() => {
+
   socket.on("connect", () => {
     client = store.get("client");
     client.ip_address = ip.address();
+    client.socket_id = socket.id;
     socket.emit("new-client", client);
   });
 
